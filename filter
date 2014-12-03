@@ -1,0 +1,26 @@
+#!/bin/env perl
+
+use 5.010;
+
+$input = STDIN;
+$start = 0;
+
+if(-e @ARGV[0]){
+    open $input, "<", @ARGV[0]
+        or die "filter: can't open the file '@ARGV[0]'";
+    $start = 1;
+}
+
+@pattern = @ARGV[$start .. @ARGV];
+
+while(<$input>){
+    my $tmp = $_;
+    my $mark = true;
+
+    foreach(@pattern){
+        $mark = undef and last
+            unless $tmp =~ m/$_/
+    }
+
+    print if $mark;
+}
